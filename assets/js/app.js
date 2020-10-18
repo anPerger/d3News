@@ -1,59 +1,81 @@
-// // @TODO: YOUR CODE HERE!
-// const margin = {top: 10, right: 30, bottom: 30, left: 60},
-//     width = 460 - margin.left - margin.right,
-//     height = 400 - margin.top - margin.bottom;
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 40, left: 50},
+    width = 520 - margin.left - margin.right,
+    height = 520 - margin.top - margin.bottom;
 
-// // append the svg object to the body of the page
-// const svg = d3.select("#scatter")
-//   .append("svg")
-//     .attr("width", width + margin.left + margin.right)
-//     .attr("height", height + margin.top + margin.bottom)
-//   .append("g")
-//     .attr("transform",
-//           "translate(" + margin.left + "," + margin.top + ")");
+// append the svg object to the body of the page
+var svg = d3.select("#scatter")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")")
 
+// Add the grey background that makes ggplot2 famous
+svg
+  .append("rect")
+    .attr("x",0)
+    .attr("y",0)
+    .attr("height", height)
+    .attr("width", height)
+    .style("fill", "EBEBEB")
 
-d3.csv("data.csv", function(data) {
-    const dataset = data;
-    const w = 600;
-    const h = 300;
+//Read the data
+d3.csv("./data.csv").then(function(csv) {
+  console.log(csv)
+  const data = csv
+  console.log(data)
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([1*0.95, 50*1.001])
+    .range([ 0, width ])
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x).tickSize(-height*1.3).ticks(10))
+    .select(".domain").remove()
 
-   
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([-0.001, 50*1.01])
+    .range([ height, 0])
+    .nice()
+  svg.append("g")
+    .call(d3.axisLeft(y).tickSize(-width*1.3).ticks(7))
+    .select(".domain").remove()
 
-//Create SVG element
-    const svg = d3.select("scatter")
-      .append("svg")
-      .attr("width", w)
-      .attr("height", h);
+  // Customization
+  svg.selectAll(".tick line").attr("stroke", "white")
 
-    svg.selectAll("circle")
-      .data(dataset)
-      .enter()
-      .append("circle")
-      .attr("cx", function(d) {
-        return d[0];
-      })
-      .attr("cy", function(d) {
-       return d[1];
-      })
-      .attr("r", function(d) {
-       return Math.sqrt(h - d[1]);
-      })
-      .attr("fill", "#00aa88");
+  // Add X axis label:
+  svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width/2 + margin.left)
+      .attr("y", height + margin.top + 20)
+      .text("smokes");
 
-    svg.selectAll("text")
-      .data(dataset)
-      .enter()
-      .append("text")
-      .text(function(d) {
-        return d[0] + "," + d[1];
-      })
-      .attr("x", function(d) {
-        return d[0];
-      })
-      .attr("y", function(d) {
-        return d[1];
-      })
-      .attr("font-size", "15px")
-      .attr("fill", "white")
+  // Y axis label:
+  svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -margin.left + 20)
+      .attr("x", -margin.top - height/2 + 20)
+      .text("poverty")
+
+  // Color scale: give me a specie name, I return a color
+  // var color = d3.scaleOrdinal()
+  //   .domain(["setosa", "versicolor", "virginica" ])
+  //   .range([ "#F8766D", "#00BA38", "#619CFF"])
+
+  // Add dots
+  svg.append("g")
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) { return x(d.smokes); } )
+      .attr("cy", function (d) { return y(d.poverty); } )
+      .attr("r", 5)
+      // .style("fill", function (d) { return color(d.state) } )
+
 })
