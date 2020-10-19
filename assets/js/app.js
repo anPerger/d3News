@@ -28,7 +28,7 @@ d3.csv("./data.csv").then(function(csv) {
   console.log(data)
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([1*0.95, 35*1.001])
+    .domain([8, 23])
     .range([ 0, width ])
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -37,7 +37,7 @@ d3.csv("./data.csv").then(function(csv) {
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([5, 35*1.01])
+    .domain([8, 28])
     .range([ height, 0])
     .nice()
   svg.append("g")
@@ -103,6 +103,7 @@ d3.csv("./data.csv").then(function(csv) {
       .attr("cx", function (d) { return x(d.poverty); } )
       .attr("cy", function (d) { return y(d.smokes); } )
       .attr("r", 5)
+      .text(function (d) { return (d.abbr); } )
       // .style("fill", function (d) { return color(d.state) } )
       .on("mouseover", mouseover )
       .on("mousemove", mousemove )
