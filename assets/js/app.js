@@ -28,7 +28,7 @@ d3.csv("./data.csv").then(function(csv) {
   console.log(data)
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([1*0.95, 50*1.001])
+    .domain([1*0.95, 35*1.001])
     .range([ 0, width ])
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -37,7 +37,7 @@ d3.csv("./data.csv").then(function(csv) {
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([-0.001, 50*1.01])
+    .domain([5, 35*1.01])
     .range([ height, 0])
     .nice()
   svg.append("g")
@@ -52,7 +52,7 @@ d3.csv("./data.csv").then(function(csv) {
       .attr("text-anchor", "end")
       .attr("x", width/2 + margin.left)
       .attr("y", height + margin.top + 20)
-      .text("poverty");
+      .text("poverty (%)");
 
   // Y axis label:
   svg.append("text")
@@ -60,7 +60,7 @@ d3.csv("./data.csv").then(function(csv) {
       .attr("transform", "rotate(-90)")
       .attr("y", -margin.left + 20)
       .attr("x", -margin.top - height/2 + 20)
-      .text("obesity")
+      .text("Smokes (%)")
 
   // Color scale: give me a specie name, I return a color
   // var color = d3.scaleOrdinal()
@@ -84,7 +84,7 @@ d3.csv("./data.csv").then(function(csv) {
 
   const mousemove = function(d) {
     tooltip
-      .html("State: " + d.state + "<br>Poverty%: " + d.poverty + "<br>Obesity%: " + d.obesity)
+      .html("State: " + d.state + "<br>Poverty%: " + d.poverty + "<br>Smokes%: " + d.smokes)
       .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
       .style("top", (d3.mouse(this)[1]) + "px")
   }
@@ -101,7 +101,7 @@ d3.csv("./data.csv").then(function(csv) {
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.poverty); } )
-      .attr("cy", function (d) { return y(d.obesity); } )
+      .attr("cy", function (d) { return y(d.smokes); } )
       .attr("r", 5)
       // .style("fill", function (d) { return color(d.state) } )
       .on("mouseover", mouseover )
