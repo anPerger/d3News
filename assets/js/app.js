@@ -67,15 +67,45 @@ d3.csv("./data.csv").then(function(csv) {
   //   .domain(["setosa", "versicolor", "virginica" ])
   //   .range([ "#F8766D", "#00BA38", "#619CFF"])
 
+  const tooltip = d3.select("#scatter")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+
+  const mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
+  }
+
+  const mousemove = function(d) {
+    tooltip
+      .html("State: " + d.state + "<br>Poverty%: " + d.poverty + "<br>Obesity%: " + d.obesity)
+      .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+      .style("top", (d3.mouse(this)[1]) + "px")
+  }
+  const mouseleave = function(d) {
+    tooltip
+      .transition()
+      .duration(200)
+      .style("opacity", 0)
+  }
   // Add dots
   svg.append("g")
     .selectAll("dot")
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) { return x(d.smokes); } )
+      .attr("cx", function (d) { return x(d.obesity); } )
       .attr("cy", function (d) { return y(d.poverty); } )
       .attr("r", 5)
       // .style("fill", function (d) { return color(d.state) } )
-
+      .on("mouseover", mouseover )
+      .on("mousemove", mousemove )
+      .on("mouseleave", mouseleave )
+  
 })
