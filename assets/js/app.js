@@ -52,7 +52,7 @@ d3.csv("./data.csv").then(function(csv) {
       .attr("text-anchor", "end")
       .attr("x", width/2 + margin.left)
       .attr("y", height + margin.top + 20)
-      .text("smokes");
+      .text("poverty");
 
   // Y axis label:
   svg.append("text")
@@ -60,7 +60,7 @@ d3.csv("./data.csv").then(function(csv) {
       .attr("transform", "rotate(-90)")
       .attr("y", -margin.left + 20)
       .attr("x", -margin.top - height/2 + 20)
-      .text("poverty")
+      .text("obesity")
 
   // Color scale: give me a specie name, I return a color
   // var color = d3.scaleOrdinal()
@@ -100,8 +100,8 @@ d3.csv("./data.csv").then(function(csv) {
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) { return x(d.obesity); } )
-      .attr("cy", function (d) { return y(d.poverty); } )
+      .attr("cx", function (d) { return x(d.poverty); } )
+      .attr("cy", function (d) { return y(d.obesity); } )
       .attr("r", 5)
       // .style("fill", function (d) { return color(d.state) } )
       .on("mouseover", mouseover )
