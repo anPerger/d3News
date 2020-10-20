@@ -103,8 +103,6 @@ d3.csv("./data.csv").then(function(csv) {
       .attr("cx", function (d) { return x(d.poverty); } )
       .attr("cy", function (d) { return y(d.smokes); } )
       .attr("r", 5)
-      .text(function (d) { return (d.abbr); } )
-      // .style("fill", function (d) { return color(d.state) } )
       .on("mouseover", mouseover )
       .on("mousemove", mousemove )
       .on("mouseleave", mouseleave )
