@@ -113,8 +113,8 @@ d3.csv("./data.csv").then(function(csv) {
   .data(data)
   .enter()
   .append("text")
-  .text(function(dataPoint) {
-    return `${dataPoint}`;
+  .text(dataPoint => {
+    return dataPoint.abbr;
   })
   .attr("x", (function(dataPoint) {
     return dataPoint.poverty; 
