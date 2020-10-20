@@ -107,4 +107,19 @@ d3.csv("./data.csv").then(function(csv) {
       .on("mousemove", mousemove )
       .on("mouseleave", mouseleave )
   
+   // Add abbr
+  svg.append("g")
+  .selectAll("text")
+  .data(data)
+  .enter()
+  .append("text")
+  .text(function(dataPoint) {
+    return `${dataPoint}`;
+  })
+  .attr("x", (function(dataPoint) {
+    return dataPoint.poverty; 
+  }))
+  .attr("y", (function(dataPoint) {
+    return dataPoint.smokes; 
+  }))
 })
