@@ -102,24 +102,31 @@ d3.csv("./data.csv").then(function(csv) {
     .append("circle")
       .attr("cx", function (d) { return x(d.poverty); } )
       .attr("cy", function (d) { return y(d.smokes); } )
-      .attr("r", 5)
+      .attr("r", 15)
+      .attr("opacity", 0.5)
       .on("mouseover", mouseover )
       .on("mousemove", mousemove )
       .on("mouseleave", mouseleave )
   
    // Add abbr
-  svg.append("g")
-  .selectAll("text")
-  .data(data)
-  .enter()
-  .append("text")
-  .text(dataPoint => {
-    return dataPoint.abbr;
-  })
-  .attr("x", (function(dataPoint) {
-    return dataPoint.poverty; 
-  }))
-  .attr("y", (function(dataPoint) {
-    return dataPoint.smokes; 
-  }))
+  svg.selectAll("text")
+    .data(data)
+    .enter()
+    .append("text")
+    .text(stateAbbr => {
+      return stateAbbr.abbr;
+    })
+    .attr("cx", function(stateAbbr) {
+      return stateAbbr.poverty;
+    })
+    .attr("cy", function(stateAbbr) {
+      return stateAbbr.smokes;
+    });  
+    
+  //   .attr("x", (function(dataPoint) {
+  //   return dataPoint.poverty; 
+  // }))
+  //   .attr("y", (function(dataPoint) {
+  //   return dataPoint.smokes; 
+  // }))
 })
